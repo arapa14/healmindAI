@@ -4,21 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ \DB::table('settings')->where('key', 'name')->value('value') ?? 'HealMind AI' }}</title>
+    <title>{{ $appName ?? "Healmind AI" }}</title>
     @vite('resources/css/app.css')
 </head>
 
 <body class="antialiased bg-gray-50">
-
     {{-- Header --}}
     <header class="bg-white shadow-md fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             {{-- Logo & Name --}}
             <div class="flex items-center gap-3">
-                <img src="{{ asset(\DB::table('settings')->where('key', 'logo')->value('value')) }}" alt="Logo"
-                    class="h-10 w-10 rounded-full object-cover">
+                <img src="{{ asset($appLogo) }}" alt="Logo" class="h-10 w-10 rounded-full object-cover">
                 <span class="font-bold text-xl text-teal-700">
-                    {{ \DB::table('settings')->where('key', 'name')->value('value') }}
+                    {{ $appName }}
                 </span>
             </div>
             {{-- Login Button --}}
@@ -35,7 +33,7 @@
         {{-- Hero Section --}}
         <section class="bg-gradient-to-r from-blue-50 to-teal-50 py-24 text-center">
             <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
-                Selamat Datang di <span class="text-teal-600">HealMind AI</span>
+                Selamat Datang di <span class="text-teal-600"> {{ $appName }}</span>
             </h1>
             <p class="mt-6 max-w-2xl mx-auto text-gray-600 text-lg">
                 Teman curhat virtual berbasis AI untuk mendukung kesehatan mental Anda.
@@ -66,11 +64,27 @@
             </div>
         </section>
 
+        {{-- Professional Registration Section --}}
+        <section class="bg-gray-50 py-20 text-center">
+            <h2 class="text-3xl font-bold text-gray-800">Bergabung sebagai Professional atau Psikolog</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-600 text-lg">
+                Apakah Anda seorang psikolog atau konselor? Bergabunglah dengan {{ $appName }}
+                untuk membantu lebih banyak orang menjaga kesehatan mental mereka.
+            </p>
+            <div class="mt-8 flex justify-center gap-6">
+                <a href="#"
+                    class="px-8 py-3 bg-teal-600 text-white text-lg rounded-full shadow-lg hover:bg-teal-700 transition">
+                    Daftar sebagai Professional
+                </a>
+            </div>
+        </section>
+
         {{-- Call to Action --}}
         <section class="bg-gradient-to-r from-teal-500 to-blue-600 py-20 text-center text-white">
             <h2 class="text-3xl font-bold">Jaga Kesehatan Mental Anda Mulai Hari Ini</h2>
             <p class="mt-4 text-lg max-w-2xl mx-auto">
-                Dengan HealMind AI, Anda tidak sendirian. Kami hadir sebagai teman curhat virtual yang siap menemani
+                Dengan {{ $appName }}, Anda tidak sendirian. Kami hadir sebagai teman curhat virtual yang siap
+                menemani
                 perjalanan emosional Anda.
             </p>
             <div class="mt-6">
@@ -83,7 +97,7 @@
     </main>
 
     <footer class="bg-gray-100 py-6 text-center text-gray-500 text-sm">
-        &copy; {{ date('Y') }} {{ \DB::table('settings')->where('key', 'name')->value('value') ?? 'HealMind AI' }}.
+        &copy; {{ date('Y') }} {{ $appName }}.
         All rights reserved.
     </footer>
 
