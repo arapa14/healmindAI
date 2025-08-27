@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'profile_picture',
+        'is_active'
     ];
 
     /**
@@ -44,5 +47,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function profile() {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function moodEntries() {
+        return $this->hasMany(Mood_Entrie::class);
+    }
+
+    public function journalEntries() {
+        return $this->hasMany(Journal_Entrie::class);
+    }
+
+    public function professionals() {
+        return $this->hasOne(Professional::class);
+    }
+
+    public function referrals() {
+        return $this->hasMany(Referral::class);
     }
 }
