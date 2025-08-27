@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user', 'psikolog', 'admin'])->default('user');
-            $table->string('profile_picture')->nullable();
+            $table->enum('role', ['user', 'professional', 'admin'])->default('user');
+            $table->string('profile_picture')->default('storage/profile_pictures/default_profile.png');
             $table->boolean('is_active')->default(false);
             $table->rememberToken();
             $table->timestamps();
