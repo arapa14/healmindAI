@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -12,54 +16,56 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        $profile = Auth::user()->profile; // relasi one-to-one
+        return view('profile.show', compact('profile'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Profile $profile)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Profile $profile)
     {
-        //
+        $profile = Auth::user()->profile;
+
+        // kalau user baru daftar & belum ada profile, buat dulu
+        if (!$profile) {
+            $profile = Profile::create([
+                'user_id' => Auth::id(),
+            ]);
+        }
+
+        return view('profile.edit', compact('profile'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'birthdate'        => 'nullable|date',
+            'gender'           => 'nullable|in:male,female',
+            'bio'              => 'nullable|string|max:255',
+            'profile_picture'  => 'nullable|image|mimes:jpg,jpeg,png,gif',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Profile $profile)
-    {
-        //
+        $user = Auth::user();
+
+        // buat atau update profile
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            $request->only('birthdate', 'gender', 'bio')
+        );
+
+        // handle profile picture
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+
+            // Update path di tabel settings
+            $user->update([
+                'profile_picture' => $path
+            ]);
+        }
+
+        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
     }
 }
