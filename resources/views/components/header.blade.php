@@ -10,7 +10,7 @@
 
         {{-- Logo + App Name (Desktop Only) --}}
         <div class="hidden md:flex items-center gap-2">
-            <img src="{{ asset($appLogo ?? 'default-logo.png') }}" alt="Logo"
+            <img src="{{ asset('storage/' . $appLogo ?? 'default-logo.png') }}" alt="Logo"
                 class="h-9 w-9 rounded-full object-cover border border-gray-200 shadow-sm">
             <span class="text-lg font-bold text-teal-600 tracking-wide">
                 {{ $appName ?? 'HealMind AI' }}

@@ -21,7 +21,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'logo',
-                'value' => 'storage/logos/default.jpeg',
+                'value' => 'logos/default.jpeg',
                 'description' => 'Logo of the application'
             ]
         ];

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $appName ?? "Healmind AI" }}</title>
+    <title>{{ $appName ?? 'Healmind AI' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('storage/' . $appLogo) }}">
     @vite('resources/css/app.css')
 </head>
 
@@ -14,7 +15,7 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             {{-- Logo & Name --}}
             <div class="flex items-center gap-3">
-                <img src="{{ asset($appLogo) }}" alt="Logo" class="h-10 w-10 rounded-full object-cover">
+                <img src="{{ asset( 'storage/' . $appLogo) }}" alt="Logo" class="h-10 w-10 rounded-full object-cover">
                 <span class="font-bold text-xl text-teal-700">
                     {{ $appName }}
                 </span>

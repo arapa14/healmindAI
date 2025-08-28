@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Journal_Entrie;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class JournalEntrieController extends Controller
 {
@@ -12,7 +14,17 @@ class JournalEntrieController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        // Ambil semua journal dengan visibility public
+        $publicJournals = Journal_Entrie::where('visibility', 'public')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $myJournals = Journal_Entrie::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')->get();
+
+        return view('user.journal.journal', compact('publicJournals', 'myJournals'));
     }
 
     /**
@@ -28,7 +40,20 @@ class JournalEntrieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'visibility' => 'required|in:public,private',
+        ]);
+
+        Journal_Entrie::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'content' => $request->content,
+            'visibility' => $request->visibility,
+        ]);
+
+        return redirect()->back()->with('success', 'Journal berhasil dibuat!');
     }
 
     /**
@@ -42,24 +67,45 @@ class JournalEntrieController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Journal_Entrie $journal_Entrie)
+    public function edit($id)
     {
-        //
+        $journal = Journal_Entrie::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail(); // Hanya jurnal milik user
+
+        return view('user.journal.edit', compact('journal'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Journal_Entrie $journal_Entrie)
+    public function update(Request $request, $id)
     {
-        //
+        $journal = Journal_Entrie::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'visibility' => 'required|in:public,private',
+        ]);
+
+        $journal->update($request->only('title', 'content', 'visibility'));
+
+        return redirect()->route('journal')->with('success', 'Journal berhasil diupdate!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Journal_Entrie $journal_Entrie)
+    public function destroy($id)
     {
-        //
+        $journal = Journal_Entrie::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $journal->delete();
+
+        return redirect()->route('journal')->with('success', 'Journal berhasil dihapus!');
+    }
+
+    public function chatbot()
+    {
+        return view('user.chatbot.index');
     }
 }

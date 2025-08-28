@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Professional;
 use App\Models\Referral;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReferralController extends Controller
 {
@@ -12,7 +16,13 @@ class ReferralController extends Controller
      */
     public function index()
     {
-        //
+        $professionals = Professional::with('user')->get();
+        // Ambil referral milik user yang sedang login
+        $referrals = Referral::with(['professional.user'])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+        return view('user.referral.index', compact('professionals', 'referrals'));
     }
 
     /**
@@ -28,7 +38,19 @@ class ReferralController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'professional_id' => 'required|exists:professionals,id',
+            'reason'          => 'required|string|max:255',
+        ]);
+
+        Referral::create([
+            'user_id'        => Auth::id(),
+            'professional_id' => $request->professional_id,
+            'reason'         => $request->reason,
+            'status'         => 'pending',
+        ]);
+
+        return redirect()->route('referral')->with('success', 'Referral berhasil dikirim!');
     }
 
     /**

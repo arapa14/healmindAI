@@ -9,7 +9,7 @@ use Illuminate\View\Component;
 class Sidebar extends Component
 {
     /**
-     * Create a new component instance.
+     * Create a new component instance.P
      */
     public function __construct()
     {

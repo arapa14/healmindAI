@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $appName ?? 'HealMind AI' }} - Dashboard</title>
+    <title>{{ $appName ?? 'HealMind AI' }} - @yield('title')</title>
+    <link rel="icon" type="image/png" href="{{ asset('storage/' . $appLogo) }}">
     @vite('resources/css/app.css')
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>

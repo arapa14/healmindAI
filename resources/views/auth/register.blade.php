@@ -12,7 +12,7 @@
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         {{-- Logo & App Name --}}
         <div class="text-center mb-8">
-            <img src="{{ asset($appLogo ?? 'default-logo.png') }}" alt="Logo"
+            <img src="{{ asset( 'storage/' . $appLogo ?? 'default-logo.png') }}" alt="Logo"
                 class="w-16 h-16 mx-auto rounded-full object-cover mb-4">
             <h1 class="text-2xl font-bold text-teal-700">{{ $appName ?? 'HealMind AI' }}</h1>
             <p class="text-gray-500 text-sm mt-1">Buat akun baru Anda</p>

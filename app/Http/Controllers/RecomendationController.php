@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recomendation;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class RecomendationController extends Controller
 {
@@ -12,7 +13,8 @@ class RecomendationController extends Controller
      */
     public function index()
     {
-        //
+        $recomendations = Recomendation::latest()->get();
+        return view('user.recomendation.index', compact('recomendations'));
     }
 
     /**
