@@ -4,62 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Tampilkan semua setting
     public function index()
     {
-        //
+        $settings = Setting::all();
+        return view('admin.settings.index', compact('settings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Form edit setting
+    public function edit($id)
     {
-        //
+        $setting = Setting::findOrFail($id);
+        return view('admin.settings.edit', compact('setting'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // Update setting
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $setting = Setting::findOrFail($id);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
+        // Cek apakah setting berupa logo
+        if ($setting->key === 'logo') {
+            $request->validate([
+                'value' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Setting $setting)
-    {
-        //
-    }
+            if ($request->hasFile('value')) {
+                $path = $request->file('value')->store('logos', 'public');
+                $setting->value = $path;
+            }
+        } else {
+            $request->validate([
+                'value' => 'required|string|max:255'
+            ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Setting $setting)
-    {
-        //
-    }
+            $setting->value = $request->value;
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Setting $setting)
-    {
-        //
+        $setting->save();
+
+        return redirect()->route('settings.index')->with('success', 'Setting berhasil diperbarui');
     }
 }

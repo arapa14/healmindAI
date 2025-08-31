@@ -7,6 +7,9 @@ use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecomendationController;
 use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'index'])->name('landing');
@@ -25,18 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/switch-back', [UserController::class, 'switchBack'])->name('user.switch.back');
 });
 
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    //
-});
-
-Route::middleware(['auth', 'isProfessional'])->group(function () {
-    Route::get('/professional/referrals', [ReferralController::class, 'schedule'])->name('professional.referrals');
-    Route::put('/professional/referrals/{id}/update', [ReferralController::class, 'answer'])->name('professional.referrals.answer');
-
-    Route::get('/professional/recomendations', [RecomendationController::class, 'recomendations'])
-        ->name('professional.recomendations');
+Route::middleware('isAdminOrProfessional')->group(function () {
+    Route::get('/professional/recomendations', [RecomendationController::class, 'recomendations'])->name('recomendations');
 
     // CRUD Journal
     Route::post('/professional/journals', [RecomendationController::class, 'storeJournal'])->name('professional.journals.store');
@@ -47,7 +43,27 @@ Route::middleware(['auth', 'isProfessional'])->group(function () {
     Route::post('/professional/recomendations', [RecomendationController::class, 'storeRecomendation'])->name('professional.recomendations.store');
     Route::put('/professional/recomendations/{id}', [RecomendationController::class, 'updateRecomendation'])->name('professional.recomendations.update');
     Route::delete('/professional/recomendations/{id}', [RecomendationController::class, 'destroyRecomendation'])->name('professional.recomendations.destroy');
+
+    Route::get('/professional/referrals', [ReferralController::class, 'schedule'])->name('professional.referrals');
+    Route::put('/professional/referrals/{id}/update', [ReferralController::class, 'answer'])->name('professional.referrals.answer');
 });
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::get('/settings/{id}/edit', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings/{id}', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::post('/switch/{id}', [UserController::class, 'switchAccount'])->name('user.switch');
+});
+
+Route::middleware(['auth', 'isProfessional'])->group(function () {});
 
 Route::middleware(['auth', 'isUser'])->group(function () {
     // Mood Entries

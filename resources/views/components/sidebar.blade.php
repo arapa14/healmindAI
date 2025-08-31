@@ -2,7 +2,7 @@
 <aside class="w-64 bg-white  flex flex-col">
     {{-- Brand (Mobile Only) --}}
     <div class="md:hidden flex items-center gap-2 px-4 py-4 border-b border-gray-200">
-        <img src="{{ asset( 'storage/' . $appLogo ?? 'default-logo.png') }}" alt="Logo"
+        <img src="{{ asset('storage/' . $appLogo ?? 'default-logo.png') }}" alt="Logo"
             class="h-9 w-9 rounded-full object-cover border border-gray-200 shadow-sm">
         <span class="text-lg font-bold text-teal-600 tracking-wide">
             {{ $appName ?? 'HealMind AI' }}
@@ -17,24 +17,24 @@
                            {{ request()->routeIs('dashboard') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
             </a>
-            <a href="javascript:void(0)"
+            <a href="{{ route('recomendations') }}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg 
-                           hover:bg-gray-50 hover:text-teal-600">
+                           hover:bg-gray-50 {{ request()->routeIs('recomendations') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="book-open" class="w-5 h-5"></i> Jurnal
             </a>
-            <a href="javascript:void(0)"
+            <a href="{{ route('professional.referrals')}}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg 
-                           hover:bg-gray-50 hover:text-teal-600">
+                           hover:bg-gray-50 {{ request()->routeIs('professional.referrals') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="share-2" class="w-5 h-5"></i> Rujukan
             </a>
-            <a href="javascript:void(0)"
+            <a href="{{ route('user.index')}}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg 
-                           hover:bg-gray-50 hover:text-teal-600">
+                           hover:bg-gray-50 {{ request()->routeIs('user.index') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="users" class="w-5 h-5"></i> Kelola User
             </a>
-            <a href="javascript:void(0)"
+            <a href="{{ route('settings.index')}}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg 
-                           hover:bg-gray-50 hover:text-teal-600">
+                           hover:bg-gray-50 {{ request()->routeIs('settings.index') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="settings" class="w-5 h-5"></i> Pengaturan
             </a>
         @endif
@@ -46,15 +46,14 @@
                            {{ request()->routeIs('dashboard') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
             </a>
-            <a href="{{ route('professional.recomendations')}}"
-                class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('professional.recomendations') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
+            <a href="{{ route('recomendations') }}"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('recomendations') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="book-open" class="w-5 h-5"></i> Recomendation
             </a>
-            <a href="{{ route('professional.referrals')}}"
+            <a href="{{ route('professional.referrals') }}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('professional.referrals') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="file-text" class="w-5 h-5"></i> Request
             </a>
-            
         @endif
 
         {{-- User Menu --}}
@@ -80,7 +79,7 @@
                 class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 hover:text-teal-600 {{ request()->routeIs('recomendation') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="sparkles" class="w-5 h-5"></i> Rekomendasi
             </a>
-            <a href="{{ route('referral')}}"
+            <a href="{{ route('referral') }}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 hover:text-teal-600 {{ request()->routeIs('referral') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="share-2" class="w-5 h-5"></i> Rujukan
             </a>

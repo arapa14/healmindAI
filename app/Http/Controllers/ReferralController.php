@@ -54,7 +54,6 @@ class ReferralController extends Controller
     public function schedule()
     {
         $referrals = Referral::with(['user'])
-            ->where('professional_id', Auth::user()->professional->id) // asumsi relasi user->professional
             ->latest()
             ->get();
 

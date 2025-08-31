@@ -1,10 +1,10 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Dashboard Professional')
+@section('title', 'Rujukan')
 
 @section('content')
     <div class="bg-white p-6 rounded shadow mb-6">
-        <h3 class="text-lg font-bold mb-4">Halo, Professional!</h3>
+        <h3 class="text-lg font-bold mb-4">Halo, {{ Auth::user()->name }}!</h3>
         <p>Anda bisa mengelola referral klien dan mengatur jadwal pertemuan di sini.</p>
     </div>
 
