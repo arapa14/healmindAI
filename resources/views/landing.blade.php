@@ -73,7 +73,7 @@
                 untuk membantu lebih banyak orang menjaga kesehatan mental mereka.
             </p>
             <div class="mt-8 flex justify-center gap-6">
-                <a href="#"
+                <a href="{{route ('register.professional')}}"
                     class="px-8 py-3 bg-teal-600 text-white text-lg rounded-full shadow-lg hover:bg-teal-700 transition">
                     Daftar sebagai Professional
                 </a>

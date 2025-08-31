@@ -47,6 +47,28 @@
             </div>
         </div>
 
+        {{-- Info Khusus Professional --}}
+        @if (Auth::user()->role === 'professional' && Auth::user()->professional)
+            <div class="mt-8 space-y-4">
+                <h2 class="text-xl font-bold text-teal-700">Informasi Professional</h2>
+
+                <div class="p-4 rounded-xl border border-gray-200 bg-green-50/40 shadow-sm">
+                    <p class="text-xs text-gray-500">Nomor Lisensi</p>
+                    <p class="font-semibold text-gray-800">{{ Auth::user()->professional->license }}</p>
+                </div>
+
+                <div class="p-4 rounded-xl border border-gray-200 bg-indigo-50/40 shadow-sm">
+                    <p class="text-xs text-gray-500">Spesialisasi</p>
+                    <p class="font-semibold text-gray-800">{{ Auth::user()->professional->specialty }}</p>
+                </div>
+
+                <div class="p-4 rounded-xl border border-gray-200 bg-orange-50/40 shadow-sm">
+                    <p class="text-xs text-gray-500">Pengalaman</p>
+                    <p class="font-semibold text-gray-800">{{ Auth::user()->professional->experience }} tahun</p>
+                </div>
+            </div>
+        @endif
+
         {{-- Tombol Edit --}}
         <div class="mt-6 text-center">
             <a href="{{ route('profile.edit') }}"

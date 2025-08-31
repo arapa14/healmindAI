@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasMany(Journal_Entrie::class);
     }
 
-    public function professionals() {
+    public function professional() {
         return $this->hasOne(Professional::class);
     }
 

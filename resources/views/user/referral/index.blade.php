@@ -41,6 +41,16 @@
                 @enderror
             </div>
 
+            <div>
+                <label class="block font-medium mb-1">Usulan Tanggal Pertemuan (opsional)</label>
+                <input type="datetime-local" name="appointment_date" value="{{ old('appointment_date') }}"
+                    class="w-full border rounded p-2">
+
+                @error('appointment_date')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                 Kirim Referral
             </button>
@@ -66,6 +76,12 @@
                         @else bg-blue-100 text-blue-700 @endif">
                             Status: {{ ucfirst($ref->status) }}
                         </span>
+                        @if ($ref->appointment_date)
+                            <div class="text-sm text-gray-600 mt-1">
+                                Usulan Pertemuan: {{ \Carbon\Carbon::parse($ref->appointment_date)->format('d M Y H:i') }}
+                            </div>
+                        @endif
+
                         <div class="text-sm text-gray-500 mt-1">
                             Dibuat: {{ $ref->created_at->format('d M Y H:i') }}
                         </div>

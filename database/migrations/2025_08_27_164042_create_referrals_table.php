@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('professional_id')->constrained('professionals')->onDelete('cascade');
             $table->string('reason');
             $table->enum('status', [ 'accepted', 'rejected', 'completed', 'pending'])->default('pending');
+            $table->dateTime('appointment_date')->nullable();
             $table->timestamps();
         });
     }

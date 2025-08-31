@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Professional;
 use App\Models\Referral;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,15 +21,8 @@ class ReferralController extends Controller
             ->where('user_id', Auth::id())
             ->latest()
             ->get();
-        return view('user.referral.index', compact('professionals', 'referrals'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('user.referral.index', compact('professionals', 'referrals'));
     }
 
     /**
@@ -39,49 +31,53 @@ class ReferralController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'professional_id' => 'required|exists:professionals,id',
-            'reason'          => 'required|string|max:255',
+            'professional_id'  => 'required|exists:professionals,id',
+            'reason'           => 'required|string|max:255',
+            'appointment_date' => 'nullable|date|after:now', // opsional, harus valid
         ]);
 
         Referral::create([
-            'user_id'        => Auth::id(),
+            'user_id'         => Auth::id(),
             'professional_id' => $request->professional_id,
-            'reason'         => $request->reason,
-            'status'         => 'pending',
+            'reason'          => $request->reason,
+            'status'          => 'pending',
+            'appointment_date' => $request->appointment_date, // bisa null
         ]);
 
         return redirect()->route('referral')->with('success', 'Referral berhasil dikirim!');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Referral $referral)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Referral $referral)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Referral $referral)
+
+    public function schedule()
     {
-        //
+        $referrals = Referral::with(['user'])
+            ->where('professional_id', Auth::user()->professional->id) // asumsi relasi user->professional
+            ->latest()
+            ->get();
+
+        return view('professional.referrals.index', compact('referrals'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Referral $referral)
+    public function answer(Request $request, $id)
     {
-        //
+        // dd($id);
+        $referral = Referral::findOrFail($id);
+
+        // dd($referral);
+
+        $request->validate([
+            'status' => 'required|in:accepted,rejected,completed,pending',
+            'appointment_date' => 'nullable|date|after:now',
+        ]);
+
+        $referral->update([
+            'status' => $request->status,
+            'appointment_date' => $request->appointment_date,
+        ]);
+
+        return back()->with('success', 'Referral berhasil diperbarui.');
     }
 }

@@ -46,14 +46,15 @@
                            {{ request()->routeIs('dashboard') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
             </a>
-            <a href="javascript:void(0)"
-                class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 hover:text-teal-600">
-                <i data-lucide="book-open" class="w-5 h-5"></i> Jurnal
+            <a href="{{ route('professional.recomendations')}}"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('professional.recomendations') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
+                <i data-lucide="book-open" class="w-5 h-5"></i> Recomendation
             </a>
-            <a href="javascript:void(0)"
-                class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 hover:text-teal-600">
+            <a href="{{ route('professional.referrals')}}"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('professional.referrals') ? 'bg-teal-50 text-teal-700 font-semibold border-l-4 border-teal-500' : 'hover:bg-gray-50 hover:text-teal-600' }}">
                 <i data-lucide="file-text" class="w-5 h-5"></i> Request
             </a>
+            
         @endif
 
         {{-- User Menu --}}

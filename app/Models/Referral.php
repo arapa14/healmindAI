@@ -13,6 +13,7 @@ class Referral extends Model
         'professional_id',
         'reason',
         'status',
+        'appointment_date',
     ];
 
     public function user() {
